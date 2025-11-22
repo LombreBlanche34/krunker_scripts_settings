@@ -35,6 +35,11 @@ function getModuleSettings() {
 function createSettingSection(moduleName, params) {
     const sectionId = moduleName.replace(/[^a-zA-Z0-9]/g, '_');
     const paramCount = Object.keys(params).length;
+    
+    // Récupérer le status du module
+    const statusKey = `lombre_${moduleName}_status`;
+    const statusValue = params['status'] ? params['status'].value : null;
+    const hasStatus = statusValue !== null && typeof statusValue === 'boolean';
 
     let sectionHTML = `
         <div style="background: rgba(0, 0, 0, 0.2); margin-bottom: 10px; border-radius: 6px; overflow: hidden;">
@@ -46,6 +51,25 @@ function createSettingSection(moduleName, params) {
                     <span class="lombre-arrow" style="font-size: 14px; transition: transform 0.2s;">▼</span>
                     <span style="color: #fff; font-size: 16px; font-weight: 500;">${moduleName.replace(/_/g, ' ')}</span>
                     <span style="color: rgba(255, 255, 255, 0.4); font-size: 13px;">(${paramCount})</span>
+                    ${hasStatus ? `
+                    <label style="position: relative; display: inline-block; width: 44px; height: 22px; cursor: pointer; margin-left: 8px;" onclick="event.stopPropagation();">
+                        <input type="checkbox" 
+                               class="lombre-setting-input lombre-module-status" 
+                               data-key="${statusKey}"
+                               data-type="boolean"
+                               ${statusValue ? 'checked' : ''}
+                               onchange="lombreSaveSetting(this)"
+                               style="opacity: 0; width: 0; height: 0;">
+                        <span class="lombre-status-slider" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; 
+                                     background: ${statusValue ? '#4CAF50' : 'rgba(255, 255, 255, 0.2)'}; 
+                                     transition: 0.3s; border-radius: 22px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);">
+                            <span class="lombre-status-knob" style="position: absolute; content: ''; height: 16px; width: 16px; left: 3px; 
+                                         bottom: 3px; background: white; transition: 0.3s; border-radius: 50%; 
+                                         transform: translateX(${statusValue ? '22px' : '0'});
+                                         box-shadow: 0 2px 4px rgba(0,0,0,0.2);"></span>
+                        </span>
+                    </label>
+                    ` : ''}
                 </div>
             </div>
             <div class="lombre-section-body" id="lombre_body_${sectionId}" 
@@ -53,6 +77,9 @@ function createSettingSection(moduleName, params) {
     `;
 
     for (const [paramName, paramData] of Object.entries(params)) {
+        // Skip le paramètre status car il est déjà affiché dans le header
+        if (paramName === 'status') continue;
+        
         const isArray = Array.isArray(paramData.value);
         const isObject = typeof paramData.value === 'object' && !isArray && paramData.value !== null;
         const isBoolean = typeof paramData.value === 'boolean';
@@ -168,8 +195,13 @@ window.lombreSaveSetting = function(element) {
             // Animate the switch
             const slider = element.nextElementSibling;
             const knob = slider.querySelector('span');
-            slider.style.background = value ? '#2196F3' : 'rgba(255, 255, 255, 0.2)';
-            knob.style.transform = `translateX(${value ? '26px' : '0'})`;
+            
+            // Utiliser la bonne couleur selon si c'est un status ou un paramètre normal
+            const isModuleStatus = element.classList.contains('lombre-module-status');
+            const color = isModuleStatus ? '#4CAF50' : '#2196F3';
+            
+            slider.style.background = value ? color : 'rgba(255, 255, 255, 0.2)';
+            knob.style.transform = `translateX(${value ? (isModuleStatus ? '22px' : '26px') : '0'})`;
         } else if (type === 'json') {
             value = JSON.parse(element.value);
             element.style.borderColor = 'rgba(76, 175, 80, 0.5)';
