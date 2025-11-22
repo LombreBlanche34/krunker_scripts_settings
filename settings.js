@@ -36,7 +36,7 @@ function createSettingSection(moduleName, params) {
     const sectionId = moduleName.replace(/[^a-zA-Z0-9]/g, '_');
     const paramCount = Object.keys(params).length;
     
-    // Récupérer le status du module
+    // get the status of the module
     const statusKey = `lombre_${moduleName}_status`;
     const statusValue = params['status'] ? params['status'].value : null;
     const hasStatus = statusValue !== null && typeof statusValue === 'boolean';
@@ -77,7 +77,7 @@ function createSettingSection(moduleName, params) {
     `;
 
     for (const [paramName, paramData] of Object.entries(params)) {
-        // Skip le paramètre status car il est déjà affiché dans le header
+        // skip if its "status" since its on the header
         if (paramName === 'status') continue;
         
         const isArray = Array.isArray(paramData.value);
@@ -196,7 +196,6 @@ window.lombreSaveSetting = function(element) {
             const slider = element.nextElementSibling;
             const knob = slider.querySelector('span');
             
-            // Utiliser la bonne couleur selon si c'est un status ou un paramètre normal
             const isModuleStatus = element.classList.contains('lombre-module-status');
             const color = isModuleStatus ? '#4CAF50' : '#2196F3';
             
@@ -483,7 +482,7 @@ function showCustomPopup() {
                     <button onclick="lombreImportSettings()" style="background: #2196F3; color: #fff; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; transition: background 0.2s;">Import</button>
                     <button onclick="lombreExportSettings()" style="background: #2196F3; color: #fff; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; transition: background 0.2s;">Export</button>
                     <button onclick="lombreResetSettings()" style="background: #ff9800; color: #fff; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; transition: background 0.2s;">Reset</button>
-                    <!-- <button onclick="window.open('DISCORD_LINK', '_blank')" style="background: #5865F2; color: #fff; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; transition: background 0.2s;">Discord</button> -->
+                    <button onclick="window.open('https://discord.gg/9aUJK9yAq9', '_blank')" style="background: #5865F2; color: #fff; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; transition: background 0.2s;">Discord</button>
                     <button onclick="window.open('https://krunker.io/social.html?p=profile&q=Lombre_Blanche', '_blank')" style="background: #00C853; color: #fff; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; transition: background 0.2s;">Support ❤️</button>
                     <button onclick="hideCustomPopup()" style="background: #ff4444; color: #fff; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; transition: background 0.2s;">Close</button>
                 </div>
