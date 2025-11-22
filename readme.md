@@ -1,3 +1,6 @@
+discord: https://discord.gg/9aUJK9yAq9
+
+
 If u are using some of my scripts / modules (https://lombreblanche34.github.io/krunker_scripts/) you can modify every settings with this script manager
 
 Press F9 to open the menu
