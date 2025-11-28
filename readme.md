@@ -11,6 +11,6 @@ slider are maybe fucked
 
 frontend by claude <3 feel free to make custom css for it and pull request them, i will maybe add a CSS selector for the UI
 
-discord server for support: soon
+discord server for support: https://discord.gg/9aUJK9yAq9
 
 my discord acc: lombre_blanche.br
