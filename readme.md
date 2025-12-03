@@ -1,3 +1,5 @@
+# NOT USED ANYMORE, ALL SCRIPTS GOT THIS SCRIPT NOW
+
 discord: https://discord.gg/9aUJK9yAq9
 
 
