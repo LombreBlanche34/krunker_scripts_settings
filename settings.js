@@ -534,17 +534,47 @@ window.hideCustomPopup = function() {
     if (popup) popup.remove();
 }
 
-// Keyboard shortcuts
-document.addEventListener('keydown', function (event) {
-    if (event.key === 'F9') {
-        event.preventDefault();
-        const popup = document.querySelector("#lombreMenuOverlay");
-        popup ? hideCustomPopup() : showCustomPopup();
+// // Keyboard shortcuts
+// document.addEventListener('keydown', function (event) {
+//     if (event.key === 'F9') {
+//         event.preventDefault();
+//         const popup = document.querySelector("#lombreMenuOverlay");
+//         popup ? hideCustomPopup() : showCustomPopup();
+//     }
+
+//     if (event.key === 'Escape') {
+//         hideCustomPopup();
+//     }
+// });
+
+
+window.addEventListener("load", () => {
+    const menuContainer = document.querySelector("#menuItemContainer");
+
+    if (!menuContainer) {
+        console.warn("[LombreScripts] #menuItemContainer not found");
+        return;
     }
 
-    if (event.key === 'Escape') {
-        hideCustomPopup();
-    }
+    // Création du bouton
+    const btn = document.createElement("div");
+    btn.className = "menuItem";
+    btn.setAttribute("onmouseenter", "playTick()");
+    btn.style.cursor = "pointer";
+
+    btn.innerHTML = `
+        <span class="material-icons-outlined menBtnIcn" style="color:green">extension</span>
+        <div class="menuItemTitle" id="menuBtnSettings">Modules</div>
+    `;
+
+    btn.addEventListener("click", () => {
+        const popup = document.querySelector("#lombreMenuOverlay");
+        popup ? hideCustomPopup() : showCustomPopup();
+    });
+
+    menuContainer.appendChild(btn);
+
+    console.log("[LombreScripts] [settings.js] Button added");
 });
 
 console.log(`[LombreScripts] [settings.js] Configuration loaded`, getModuleSettings());
